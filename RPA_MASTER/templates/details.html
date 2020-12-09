@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
+    <script src="static/js/jquery-3.2.1.min.js"></script>
+    <script src="static/js/bootstrap.min.js"></script>
+    <!-- <script src="js/jquery-3.2.1.slim.min.js"></script> -->
+    <script src="static/js/popper.min.js"></script>
+    <style>
+        .MultiCarousel {
+    float: left;
+    overflow: hidden;
+    padding: 15px;
+    width: 100%;
+    position: relative;
+}
+
+.MultiCarousel .MultiCarousel-inner {
+    transition: 1s ease all;
+    float: left;
+}
+
+.MultiCarousel .MultiCarousel-inner .item {
+    float: left;
+}
+
+.MultiCarousel .MultiCarousel-inner .item>div {
+    text-align: center;
+    padding: 10px;
+    margin: 10px;
+    background: #f1f1f1;
+    color: #666;
+}
+
+.MultiCarousel .leftLst,
+.MultiCarousel .rightLst {
+    position: absolute;
+    border-radius: 50%;
+    top: calc(50% - 20px);
+    width: 50px;
+    height: 50px;
+    font-size: 22px;
+}
+
+.MultiCarousel .leftLst {
+    left: 25px;
+}
+
+.MultiCarousel .rightLst {
+    right: 25px;
+}
+
+.MultiCarousel .leftLst.over,
+.MultiCarousel .rightLst.over {
+    pointer-events: none;
+    background: #ccc;
+}
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-sm bg-light">
+        <div class="col-md-12 col-12">
+            <div class="row">
+                <div class="col-md-1 col-1">
+                    <a class="navbar-brand pt-0" href="home.html"><img src="./static/images/main_logo.png" class="w-75"></a>
+                </div>
+                <div class="col-md-8 col-8 mt-2">
+                    <form class="form-inline">
+                        <input class="form-control mr-sm-2 col-md-10" type="text" placeholder="Search" id="userSearchValue">
+                        <button class="btn btn-primary col-md-1" type="button" onclick="search()">Search</button>
+                    </form>
+                </div>
+                <div class="col-md-3 col-3 float-right mt-2">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="home.html">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="solution.html">Solution</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="about_us.html">About Us</a>
+                        </li>
+
+                        <!-- Dropdown -->
+                        <!-- <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                                Menu
+                            </a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="#">Link 1</a>
+                                <a class="dropdown-item" href="#">Link 2</a>
+                                <a class="dropdown-item" href="#">Link 3</a>
+                            </div>
+                        </li> -->
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="col-md-12 col-12">
+        <div class="row">
+            {% for rpadetail in rpadetails %}
+            <div class="col-md-6 col-6">
+                <img class="detail-card-img-top w-100" id="detail-img">
+            </div>
+            <div class="col-md-6 col-6">
+                <div class="card-body">
+                    <h4 class="text-uppercase text-underline mb-3">{{rpadetail.rpa_name}}</h4>
+                    <div class="row">
+                        <div class="col-md-4 col-4">
+                            <label class="text-uppercase attribute-label"><b>Version</b></label>
+                            <p>{{rpadetail.version}}</p>
+                        </div>
+                        <div class="col-md-4 col-4">
+                            <label class="text-uppercase attribute-label"><b>Asset Type</b></label>
+                            <p>{{rpadetail.asset_type}}</p>
+                        </div>
+                        <div class="col-md-4 col-4">
+                            <label class="text-uppercase attribute-label"><b>Price</b></label>
+                            <p>{{rpadetail.price}}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 col-4">
+                            <label class="text-uppercase attribute-label"><b>vendor</b></label>
+                            <p>{{rpadetail.vendor}}</p>
+                        </div>
+                        <div class="col-md-4 col-4">
+                            <label class="text-uppercase attribute-label"><b>Domain</b></label>
+                            <p>{{rpadetail.domain}}</p>
+                        </div>
+                        <div class="col-md-4 col-4">
+                            <label class="text-uppercase attribute-label"><b>Technology</b></label>
+                            <p>{{rpadetail.Technology}}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 col-4">
+                            <label class="text-uppercase attribute-label"><b>Software Involved</b></label>
+                            <p>{{rpadetail.software_involved}}</p>
+                        </div>
+                        <div class="col-md-4 col-4">
+                            <label class="text-uppercase attribute-label"><b>Pre-requisites</b></label>
+                            <p>{{rpadetail.prerequisites}}</p>
+                        </div>
+
+                        <div class="col-md-4 col-4">
+                            <label class="text-uppercase attribute-label"><b>Reference document</b></label>
+                            <p><a id="downloadReference" download>view / download</a></p>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 col-4">
+                            <label class="text-uppercase attribute-label"><b>Industries</b></label>
+                            <p id="industries"></p>
+                        </div>
+                    </div>    
+                    <label class="text-uppercase attribute-label"><b>description</b></label>
+                    <p>{{rpadetail.description}}</p>
+                    
+
+                    <a href="{{rpadetail.rpa_link}}" target="_blank">View More</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+
+    <div class="d-flex">
+        <div class="MultiCarousel" data-items="1,3,5,6" data-slide="1" id="MultiCarousel" data-interval="1000">
+            <div class="MultiCarousel-inner">
+                {% for recommenditem in recommendlist %}
+                <div class="item">
+                    <div class="card">
+                        <img class="card-img-top" src="./static/images/icons/{{recommenditem.rpa_id}}.png" alt="Card image" style="width:100%">
+                        <div class="card-body">
+                            <h6 class="card-title text-center">{{recommenditem.rpa_name}}</h6>
+                            <a href="details.html?id={{recommenditem.rpa_id}}" class="card-a"><button class="view-more-btn w-100">View
+                                    More</button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+
+            </div>
+            <button class="btn btn-primary leftLst"> < </button>
+            <button class="btn btn-primary rightLst">></button>
+        </div>
+    </div>
+
+
+
+
+    <!-- Footer -->
+    <footer id="footer" class="p-3 mt-5">
+        <div class="col-md-12 col-12">
+            <h3>Get in touch</h3>
+            <div class="alert alert-warning alert-dismissible fade" role="alert" id="error">
+                <span>Please provide valid details</span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="messageForm">
+                <div class="row">
+                    <div class="col text-left">
+                        <label for="fname">First Name<span class="error">*</span></label>
+                        <input type="text" class="form-control" id="first" placeholder="First Name" id="fname">
+                    </div>
+                    <div class="col text-left">
+                        <label for="lname">Last Name<span class="error">*</span></label>
+                        <input type="text" class="form-control" placeholder="Last Name" id="lname">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col text-left mt-3">
+                        <label for="email">Email address<span class="error">*</span></label>
+                        <input type="email" class="form-control" placeholder="Email" id="email">
+                    </div>
+                    <div class="col text-left mt-3">
+                        <label for="textArea">Message<span class="error">*</span></label>
+                        <textarea rows="1" class="form-control" placeholder="Message" id="textArea"> </textarea>
+                    </div>
+                </div>
+                <div class="col row mt-3 justify-content-center">
+                    <button type="button" class="float-left btn btn-primary" onclick="sendMessage();">Submit</button>
+                </div>
+
+            </form>
+        </div>
+    </footer>
+
+    <div class="alert alert-success success-alert-toast alert-dismissible fade" role="alert" id="alert">
+        <span>Message sent successfully.</span>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+</body>
+
+<script>
+    let url = new URL(window.location.href);
+    let id = url.searchParams.get('id');
+    let img = document.getElementById('detail-img');
+    img.src = `./static/images/icons/${id}.png`;
+
+    document.getElementById('downloadReference').href = `./static/Helpdoc/${id}.pdf`;
+    listOfIndustries = ['abc','dfg'];
+    document.getElementById('industries').innerText = listOfIndustries.join(' | ');
+
+    
+    function sendMessage() {
+        let form = document.getElementById('messageForm');
+        if(!form.elements[0].value || !form.elements[1].value || !form.elements[2].value || !form.elements[3].value) {
+            document.getElementById('error').classList.add('show');
+            return;
+        }
+        document.getElementById('error').classList.remove('show');
+        document.getElementById('alert').style.top = '0px';
+        
+        let obj = {
+            firstName: form.elements[0].value,
+            lastName: form.elements[1].value,
+            email: form.elements[2].value,
+            message: form.elements[3].value
+        };
+
+        fetch('/send-message', {method: 'POST', body: JSON.stringify(obj), 
+        headers: {
+        "Content-Type": "application/json",
+        },
+        }).then(success => {
+            window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+        document.getElementById('alert').classList.add('show');
+        setTimeout(() => {
+            form.elements[0].value  = '';
+            form.elements[1].value = '';
+            form.elements[2].value = '';
+            form.elements[3].value = '';
+            document.getElementById('alert').classList.remove('show');
+        }, 3000);    
+        }); 
+        
+        
+    }
+
+    function search() {
+        let userValue = document.getElementById('userSearchValue').value;
+        console.log(userValue);
+        window.location.href = 'solution.html?value=' + userValue;
+    }
+
+    $(document).ready(function() {
+        var itemsMainDiv = ('.MultiCarousel');
+        var itemsDiv = ('.MultiCarousel-inner');
+        var itemWidth = "";
+
+        $('.leftLst, .rightLst').click(function() {
+            var condition = $(this).hasClass("leftLst");
+            if (condition)
+                click(0, this);
+            else
+                click(1, this)
+        });
+
+        ResCarouselSize();
+
+
+
+
+        $(window).resize(function() {
+            ResCarouselSize();
+        });
+
+        //this function define the size of the items
+        function ResCarouselSize() {
+            var incno = 0;
+            var dataItems = ("data-items");
+            var itemClass = ('.item');
+            var id = 0;
+            var btnParentSb = '';
+            var itemsSplit = '';
+            var sampwidth = $(itemsMainDiv).width();
+            var bodyWidth = $('body').width();
+            $(itemsDiv).each(function() {
+                id = id + 1;
+                var itemNumbers = $(this).find(itemClass).length;
+                btnParentSb = $(this).parent().attr(dataItems);
+                itemsSplit = btnParentSb.split(',');
+                $(this).parent().attr("id", "MultiCarousel" + id);
+                incno = 4;
+                itemWidth = sampwidth / incno;
+
+                $(this).css({
+                    'transform': 'translateX(0px)',
+                    'width': itemWidth * itemNumbers
+                });
+                $(this).find(itemClass).each(function() {
+                    $(this).outerWidth(itemWidth);
+                });
+
+                $(".leftLst").addClass("over");
+                $(".rightLst").removeClass("over");
+
+            });
+        }
+
+
+        //this function used to move the items
+        function ResCarousel(e, el, s) {
+            var leftBtn = ('.leftLst');
+            var rightBtn = ('.rightLst');
+            var translateXval = '';
+            var divStyle = $(el + ' ' + itemsDiv).css('transform');
+            var values = divStyle.match(/-?[\d\.]+/g);
+            var xds = Math.abs(values[4]);
+            if (e == 0) {
+                translateXval = parseInt(xds) - parseInt(itemWidth * s);
+                $(el + ' ' + rightBtn).removeClass("over");
+
+                if (translateXval <= itemWidth / 2) {
+                    translateXval = 0;
+                    $(el + ' ' + leftBtn).addClass("over");
+                }
+            } else if (e == 1) {
+                var itemsCondition = $(el).find(itemsDiv).width() - $(el).width();
+                translateXval = parseInt(xds) + parseInt(itemWidth * s);
+                $(el + ' ' + leftBtn).removeClass("over");
+
+                if (translateXval >= itemsCondition - itemWidth / 2) {
+                    translateXval = itemsCondition;
+                    $(el + ' ' + rightBtn).addClass("over");
+                }
+            }
+            $(el + ' ' + itemsDiv).css('transform', 'translateX(' + -translateXval + 'px)');
+        }
+
+        //It is used to get some elements from btn
+        function click(ell, ee) {
+            var Parent = "#" + $(ee).parent().attr("id");
+            var slide = $(Parent).attr("data-slide");
+            ResCarousel(ell, Parent, slide);
+        }
+
+    });
+</script>
+
+</html>
